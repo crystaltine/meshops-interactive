@@ -1,0 +1,24 @@
+.heatmap {
+    position: relative;
+    top:0;left:0;
+    height:100%; width:100%;
+    z-index: 10;
+    display:flex;
+    flex-direction: column;
+}
+
+.heatmap-row {
+    display:flex;
+    flex-direction: row;
+    width:100%;
+    height:100%;
+}
+
+.heatmap-cell {
+    height:100%;
+    aspect-ratio: 1/1;
+    z-index: 90;
+}
+.heatmap-cell:hover{
+    filter: brightness(1.2);
+}

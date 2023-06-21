@@ -1,0 +1,41 @@
+.selector {
+    padding:20px;
+    display:flex;
+    background-color: rgb(39, 41, 50);
+    align-items: center;
+    font-family: Lexend, Rubik, sans-serif;
+    font-size: 30px;
+    gap:20px;
+}
+
+.city-select {
+    background-color: rgb(65, 72, 77);
+    padding:10px;
+    border: none;
+    color: white;
+    font-size: 25px;
+    font-family: Lexend, Rubik, sans-serif;
+    text-align: center;
+    outline: none;
+}
+
+.city-select:hover {
+    background-color: rgb(72, 84, 91);
+    cursor: pointer;
+}
+
+.city-option {
+    font-size: 15px;
+    padding:10px 5px;
+    font-family: Lexend, Rubik, sans-serif;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    cursor: pointer;
+}
+
+.city-option:hover {
+    background-color: rgb(5, 64, 100);
+    cursor: pointer;
+}
