@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/meshops-interactive/static/css/main.5e437dab.css",
-    "main.js": "/meshops-interactive/static/js/main.33d735c8.js",
+    "main.css": "/meshops-interactive/static/css/main.ddd56d3b.css",
+    "main.js": "/meshops-interactive/static/js/main.b65808e2.js",
     "static/js/787.9279e2e5.chunk.js": "/meshops-interactive/static/js/787.9279e2e5.chunk.js",
     "index.html": "/meshops-interactive/index.html",
-    "main.5e437dab.css.map": "/meshops-interactive/static/css/main.5e437dab.css.map",
-    "main.33d735c8.js.map": "/meshops-interactive/static/js/main.33d735c8.js.map",
+    "main.ddd56d3b.css.map": "/meshops-interactive/static/css/main.ddd56d3b.css.map",
+    "main.b65808e2.js.map": "/meshops-interactive/static/js/main.b65808e2.js.map",
     "787.9279e2e5.chunk.js.map": "/meshops-interactive/static/js/787.9279e2e5.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.5e437dab.css",
-    "static/js/main.33d735c8.js"
+    "static/css/main.ddd56d3b.css",
+    "static/js/main.b65808e2.js"
   ]
 }
