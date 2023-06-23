@@ -19,5 +19,4 @@ body {
   display: grid;
   grid-template-rows: 1fr 7fr;
   height: 100vh;
-
 }

@@ -2,19 +2,31 @@ import json
 from flask import Flask, request
 from KEY import API_KEY
 import requests
+import torch
+import numpy as np
+from meshops.simulate import simulate2d
+import matplotlib.colors as colors
+from time import sleep
 app = Flask(__name__)
-
-def fetch(lat, lon):
-    url = f'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API_KEY}'
-    response = requests.get(url)
-    data = response.json()
-    return data['main']['temp']
-
-coords = json.load(open('coords.json'))
 
 @app.route('/')
 def index():
-    
+    def fetch(lat, lon):
+        url = f'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API_KEY}'
+        sleep(0.2)
+        response = requests.get(url)
+        data = response.json()
+        return data['main']['temp']
+
+    def get_rgb_ndarr(arr: torch.Tensor) -> np.ndarray:
+        scaled_vals = -0.693 * arr + 0.693
+        hsv_tensor = torch.stack([scaled_vals, torch.ones_like(arr), torch.ones_like(arr)], dim=-1)
+        hsv_array = hsv_tensor.cpu().numpy()
+
+        rgb_array = colors.hsv_to_rgb(hsv_array) * 255
+        frame = np.round(rgb_array).astype(np.uint8)
+        return frame
+    coords = json.load(open('api-temp/coords.json', 'r'))
     city = request.args.get('city')
     coords = coords[city]
     
@@ -32,23 +44,29 @@ def index():
         for j in range(36):
             lon += step_lon
             temps[i][j] = fetch(lat, lon)
-            
-    # Get data from OpenWeatherApi, generate starting mesh
-    # Simulate mesh for ~7 days or some amt of time, return list of meshes
-    
-    
-    
-    # data ...
-    # simulate(data)
-    # frames.append(simulated) x 7
-    # return:
-    # - list of frames to frontend
-    # - other data, like temperature
-    
+            print(f"{temps[i][j]} : fetched #{(23-i) * 36 + j}/864")
+        
+    for i in range(len(temps)):
+        for j in range(len(temps[i])):
+            temps[i][j] = round(temps[i][j] - 273.15, 4)
+  
+    frames = simulate2d(torch.tensor(temps), iteration_count=7, as_list=True)
+    color_frames_255 = []
+    for frame in frames:
+        color_frames_255.append(get_rgb_ndarr(torch.tensor(frame)).tolist())
+        
+    # write to files
+    with open(f'night_data/{city}_temps.json', 'w') as f:
+        f.write(f'{json.dumps(frames)}')
+        f.close()
+    with open(f'night_data/{city}_colors.json', 'w') as f:
+        f.write(f'{json.dumps(color_frames_255)}')
+        f.close()
+        
     return json.dumps({
-        'avg_temperature': temps[11][17],
-        'frames': [
-            temps,
-            # simulated frames below
-        ]
+        'temps': frames,
+        'colors': color_frames_255
     })
+
+if __name__ == '__main__':
+    app.run(debug=True, port=5050)
